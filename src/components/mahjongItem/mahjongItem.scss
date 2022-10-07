@@ -1,0 +1,36 @@
+.mahjong-item {
+  border: 0.5px solid #CDCDCD;
+  border-radius: 8px;
+  width: 80px;
+  height: 104px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  color: #0A0A0C;
+  cursor: pointer;
+  background-color: #FFFFFF;
+  transition: box-shadow .3s ease, border .1s ease;
+
+  //&.hidden {
+  //  .item-number {
+  //    color: red;
+  //  }
+  //}
+
+  &.in-progress {
+    border-color: #ED5517;
+  }
+
+  &.completed {
+    border: 1px solid #0A0A0C;
+  }
+
+  &:hover {
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}

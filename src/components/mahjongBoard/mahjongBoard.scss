@@ -1,0 +1,8 @@
+.mahjong-board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  max-width: 745px;
+  column-gap: 15px;
+  row-gap: 15px;
+  margin-top: 108px;
+}
