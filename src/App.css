@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
+:root {
+	--white: #FFFFFF;
+	--black: #0A0A0C;
+	--orange: #ED5517;
+	--grey: #CDCDCD;
+}
+
 .App {
 	width: 100%;
 	display: flex;
