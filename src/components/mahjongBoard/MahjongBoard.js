@@ -6,26 +6,23 @@ import classNames from "classnames";
 
 const MahjongBoard = () => {
 
-	const numbersArray = PrimeNumbersArray(160);
-	numbersArray.sort(function(a, b){return 0.5 - Math.random()});
-
 	const classes = classNames(
 		style.link,
 		'mahjong-board'
 	);
 
-	const initialState = [];
-	for (let i = 0; i < numbersArray.length; i++) {
-		initialState.push({
+	const cardsNumber = 32;
+	const initialState0 = [];
+	for (let i = 0; i < cardsNumber; i++) {
+		initialState0.push({
 			id: i,
-			key: numbersArray[i],
+			key: i,
 			status: 'visible',
 			tempStatus: '',
 		})
 	}
-	const stateHidden = initialState.map(e => ({...e, status: 'hidden'}));
 
-	const [boardState, setBoardState] = useState(initialState);
+	const [boardState, setBoardState] = useState(initialState0);
 
 	const clickCount = useRef(0);
 	const recentClickNumber = useRef(null);
@@ -35,6 +32,20 @@ const MahjongBoard = () => {
 		recentClickNumber.current = null;
 		recentClickId.current = null;
 		clickCount.current = 0;
+		const numbersArray = PrimeNumbersArray(160);
+		numbersArray.sort(function(a, b){return 0.5 - Math.random()});
+		const initialState = [];
+		for (let i = 0; i < numbersArray.length; i++) {
+			initialState.push({
+				id: i,
+				key: numbersArray[i],
+				status: 'visible',
+				tempStatus: '',
+			})
+		}
+		setBoardState(initialState);
+		const stateHidden = initialState.map(e => ({...e, status: 'hidden'}));
+
 		setTimeout(() => {
 			setBoardState(stateHidden);
 		}, 5000);
