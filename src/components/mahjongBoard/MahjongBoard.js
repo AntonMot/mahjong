@@ -40,11 +40,11 @@ const MahjongBoard = () => {
 				id: i,
 				key: numbersArray[i],
 				status: 'visible',
-				tempStatus: '',
+				tempStatus: 'initial',
 			})
 		}
 		setBoardState(initialState);
-		const stateHidden = initialState.map(e => ({...e, status: 'hidden'}));
+		const stateHidden = initialState.map(e => ({...e, status: 'hidden', tempStatus: ''}));
 
 		setTimeout(() => {
 			setBoardState(stateHidden);
@@ -52,7 +52,7 @@ const MahjongBoard = () => {
 	}, []);
 
 	const handleClick = (number, isRevealed, id, tempStatus) => {
-		if ( tempStatus == 'in-progress' || tempStatus == 'completed' ) {
+		if ( tempStatus == 'in-progress' || tempStatus == 'completed' || tempStatus == 'initial' ) {
 			return;
 		}
 		clickCount.current = clickCount.current + 1;
