@@ -36,8 +36,83 @@ const MahjongBoard = () => {
 		}, 5000);
 	}, []);
 
-	const handleClick = (newValue) => {
-		setBoardState(newValue);
+	const handleClick = (number, isRevealed, id, tempStatus) => {
+		if ( tempStatus == 'in-progress' || tempStatus == 'completed' ) {
+			return;
+		}
+		const clickCount = localStorage.getItem('clickCount');
+		localStorage.setItem('clickCount', +clickCount + 1);
+
+		// first click
+		if ( localStorage.getItem('clickCount') < 2 ) {
+			localStorage.setItem('recentClickNumber', number);
+			localStorage.setItem('recentClickId', id);
+
+			boardState[id] = {
+				id: id,
+				key: number,
+				status: 'visible',
+				tempStatus: 'in-progress',
+			};
+			const updatedState = structuredClone(boardState);
+			setBoardState(updatedState);
+
+			// second click
+		} else {
+			// correct card
+			if (number == localStorage.getItem('recentClickNumber')) {
+				boardState[id] = {
+					id: id,
+					key: number,
+					status: 'visible',
+					tempStatus: 'completed',
+				};
+				boardState[parseInt(localStorage.getItem('recentClickId'))] = {
+					id: parseInt(localStorage.getItem('recentClickId')),
+					key: parseInt(localStorage.getItem('recentClickNumber')),
+					status: 'visible',
+					tempStatus: 'completed',
+				};
+				const updatedState = structuredClone(boardState);
+				setBoardState(updatedState);
+				localStorage.setItem('recentClickNumber', null);
+				localStorage.setItem('recentClickId', null);
+				localStorage.setItem('clickCount', 0);
+
+				// incorrect card
+			} else {
+				boardState[id] = {
+					id: id,
+					key: number,
+					status: 'visible',
+					tempStatus: 'in-progress',
+				};
+				const updatedState = structuredClone(boardState);
+				setBoardState(updatedState);
+
+				boardState[id] = {
+					id: id,
+					key: number,
+					status: 'hidden',
+					tempStatus: '',
+				};
+				boardState[parseInt(localStorage.getItem('recentClickId'))] = {
+					id: parseInt(localStorage.getItem('recentClickId')),
+					key: parseInt(localStorage.getItem('recentClickNumber')),
+					status: 'hidden',
+					tempStatus: '',
+				};
+				const updatedStateHidden = structuredClone(boardState);
+
+				localStorage.setItem('recentClickNumber', null);
+				localStorage.setItem('clickCount', 0);
+				localStorage.setItem('recentClickId', null);
+				setTimeout(() => {
+					setBoardState(updatedStateHidden);
+				}, 500);
+			}
+
+		}
 	};
 
 	return (
@@ -49,7 +124,6 @@ const MahjongBoard = () => {
 						isRevealed={item.status}
 						id={item.id}
 						handleClick={handleClick}
-						boardState={boardState}
 						tempStatus={item.tempStatus}
 					/>
 				))

@@ -13,83 +13,9 @@ const MahjongItem = (props) => {
 		tempStatus,
 	);
 
+
 	const clickHandler = (e) => {
-		if ( tempStatus == 'in-progress' || tempStatus == 'completed' ) {
-			return;
-		}
-
-		const clickCount = localStorage.getItem('clickCount');
-		localStorage.setItem('clickCount', +clickCount + 1);
-
-		// first click
-		if ( localStorage.getItem('clickCount') < 2 ) {
-			localStorage.setItem('recentClickNumber', number);
-			localStorage.setItem('recentClickId', id);
-
-			props.boardState[id] = {
-				id: id,
-				key: number,
-				status: 'visible',
-				tempStatus: 'in-progress',
-			};
-			const updatedState = structuredClone(props.boardState);
-			props.handleClick(updatedState);
-
-		// second click
-		} else {
-			// correct card
-			if ( number == localStorage.getItem('recentClickNumber' ) ) {
-				props.boardState[id] = {
-					id: id,
-					key: number,
-					status: 'visible',
-					tempStatus: 'completed',
-				};
-				props.boardState[parseInt(localStorage.getItem('recentClickId' ))] = {
-					id: parseInt(localStorage.getItem('recentClickId' )),
-					key: parseInt(localStorage.getItem('recentClickNumber' )),
-					status: 'visible',
-					tempStatus: 'completed',
-				};
-				const updatedState = structuredClone(props.boardState);
-				props.handleClick(updatedState);
-				localStorage.setItem('recentClickNumber', null);
-				localStorage.setItem('recentClickId', null);
-				localStorage.setItem('clickCount', 0);
-
-			// incorrect card
-			} else {
-				props.boardState[id] = {
-					id: id,
-					key: number,
-					status: 'visible',
-					tempStatus: 'in-progress',
-				};
-				const updatedState = structuredClone(props.boardState);
-				props.handleClick(updatedState);
-
-				props.boardState[id] = {
-					id: id,
-					key: number,
-					status: 'hidden',
-					tempStatus: '',
-				};
-				props.boardState[parseInt(localStorage.getItem('recentClickId' ))] = {
-					id: parseInt(localStorage.getItem('recentClickId' )),
-					key: parseInt(localStorage.getItem('recentClickNumber' )),
-					status: 'hidden',
-					tempStatus: '',
-				};
-				const updatedStateHidden = structuredClone(props.boardState);
-
-				localStorage.setItem('recentClickNumber', null);
-				localStorage.setItem('clickCount', 0);
-				localStorage.setItem('recentClickId', null);
-				setTimeout(() => {
-					props.handleClick(updatedStateHidden);
-				}, 500);
-			}
-		}
+		props.handleClick(number, isRevealed, id, tempStatus);
 	}
 
 	return (
