@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from "react";
+import React, { useState, useEffect, useRef }  from "react";
 import MahjongItem from "../mahjongItem/MahjongItem";
 import PrimeNumbersArray from "../../helpers/utils";
 import style from "./mahjongBoard.scss";
@@ -27,10 +27,14 @@ const MahjongBoard = () => {
 
 	const [boardState, setBoardState] = useState(initialState);
 
+	const clickCount = useRef(0);
+	const recentClickNumber = useRef(null);
+	const recentClickId = useRef(null);
+
 	useEffect(() => {
-		localStorage.setItem('clickCount', 0);
-		localStorage.setItem('recentClickNumber', null);
-		localStorage.setItem('recentClickId', null);
+		recentClickNumber.current = null;
+		recentClickId.current = null;
+		clickCount.current = 0;
 		setTimeout(() => {
 			setBoardState(stateHidden);
 		}, 5000);
@@ -40,13 +44,12 @@ const MahjongBoard = () => {
 		if ( tempStatus == 'in-progress' || tempStatus == 'completed' ) {
 			return;
 		}
-		const clickCount = localStorage.getItem('clickCount');
-		localStorage.setItem('clickCount', +clickCount + 1);
+		clickCount.current = clickCount.current + 1;
 
 		// first click
-		if ( localStorage.getItem('clickCount') < 2 ) {
-			localStorage.setItem('recentClickNumber', number);
-			localStorage.setItem('recentClickId', id);
+		if ( clickCount.current < 2 ) {
+			recentClickNumber.current = number;
+			recentClickId.current = id;
 
 			boardState[id] = {
 				id: id,
@@ -60,24 +63,25 @@ const MahjongBoard = () => {
 			// second click
 		} else {
 			// correct card
-			if (number == localStorage.getItem('recentClickNumber')) {
+			if ( number == recentClickNumber.current ) {
 				boardState[id] = {
 					id: id,
 					key: number,
 					status: 'visible',
 					tempStatus: 'completed',
 				};
-				boardState[parseInt(localStorage.getItem('recentClickId'))] = {
-					id: parseInt(localStorage.getItem('recentClickId')),
-					key: parseInt(localStorage.getItem('recentClickNumber')),
+				boardState[parseInt( recentClickId.current )] = {
+					id: parseInt( recentClickId.current ),
+					key: parseInt( recentClickNumber.current ),
 					status: 'visible',
 					tempStatus: 'completed',
 				};
 				const updatedState = structuredClone(boardState);
 				setBoardState(updatedState);
-				localStorage.setItem('recentClickNumber', null);
-				localStorage.setItem('recentClickId', null);
-				localStorage.setItem('clickCount', 0);
+
+				recentClickNumber.current = null;
+				recentClickId.current = null;
+				clickCount.current = 0;
 
 				// incorrect card
 			} else {
@@ -96,17 +100,18 @@ const MahjongBoard = () => {
 					status: 'hidden',
 					tempStatus: '',
 				};
-				boardState[parseInt(localStorage.getItem('recentClickId'))] = {
-					id: parseInt(localStorage.getItem('recentClickId')),
-					key: parseInt(localStorage.getItem('recentClickNumber')),
+				boardState[parseInt( recentClickId.current )] = {
+					id: parseInt( recentClickId.current ),
+					key: parseInt( recentClickNumber.current ),
 					status: 'hidden',
 					tempStatus: '',
 				};
 				const updatedStateHidden = structuredClone(boardState);
 
-				localStorage.setItem('recentClickNumber', null);
-				localStorage.setItem('clickCount', 0);
-				localStorage.setItem('recentClickId', null);
+				recentClickNumber.current = null;
+				recentClickId.current = null;
+				clickCount.current = 0;
+
 				setTimeout(() => {
 					setBoardState(updatedStateHidden);
 				}, 500);
