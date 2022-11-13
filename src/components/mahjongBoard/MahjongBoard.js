@@ -130,6 +130,7 @@ const MahjongBoard = () => {
 						id={item.id}
 						handleClick={handleClick}
 						tempStatus={item.tempStatus}
+						key={item.id}
 					/>
 				))
 			}
