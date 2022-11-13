@@ -6,7 +6,7 @@ import classNames from "classnames";
 
 const MahjongBoard = () => {
 
-	const numbersArray = PrimeNumbersArray();
+	const numbersArray = PrimeNumbersArray(160);
 	numbersArray.sort(function(a, b){return 0.5 - Math.random()});
 
 	const classes = classNames(

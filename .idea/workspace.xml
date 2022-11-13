@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6594f16e-a690-4d6d-abad-31d2f9a17c24" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/helpers/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/mahjongBoard/MahjongBoard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mahjongBoard/MahjongBoard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/utils.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -75,7 +74,7 @@
       <updated>1665058205451</updated>
       <workItem from="1665058208599" duration="39462000" />
       <workItem from="1665406217015" duration="480000" />
-      <workItem from="1668325542466" duration="2446000" />
+      <workItem from="1668325542466" duration="2823000" />
     </task>
     <servers />
   </component>
