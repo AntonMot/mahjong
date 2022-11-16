@@ -59,77 +59,89 @@ const MahjongBoard = () => {
 
 		// first click
 		if ( clickCount.current < 2 ) {
-			recentClickNumber.current = number;
-			recentClickId.current = id;
+			firstClickHandle(number, id);
 
-			boardState[id] = {
-				id: id,
-				key: number,
-				status: 'visible',
-				tempStatus: 'in-progress',
-			};
-			const updatedState = structuredClone(boardState);
-			setBoardState(updatedState);
-
-			// second click
+		// second click
 		} else {
 			// correct card
 			if ( number == recentClickNumber.current ) {
-				boardState[id] = {
-					id: id,
-					key: number,
-					status: 'visible',
-					tempStatus: 'completed',
-				};
-				boardState[parseInt( recentClickId.current )] = {
-					id: parseInt( recentClickId.current ),
-					key: parseInt( recentClickNumber.current ),
-					status: 'visible',
-					tempStatus: 'completed',
-				};
-				const updatedState = structuredClone(boardState);
-				setBoardState(updatedState);
-
-				recentClickNumber.current = null;
-				recentClickId.current = null;
-				clickCount.current = 0;
-
-				// incorrect card
+				secondCorrectClickHandle(number, id);
+			// incorrect card
 			} else {
-				boardState[id] = {
-					id: id,
-					key: number,
-					status: 'visible',
-					tempStatus: 'in-progress',
-				};
-				const updatedState = structuredClone(boardState);
-				setBoardState(updatedState);
-
-				boardState[id] = {
-					id: id,
-					key: number,
-					status: 'hidden',
-					tempStatus: '',
-				};
-				boardState[parseInt( recentClickId.current )] = {
-					id: parseInt( recentClickId.current ),
-					key: parseInt( recentClickNumber.current ),
-					status: 'hidden',
-					tempStatus: '',
-				};
-				const updatedStateHidden = structuredClone(boardState);
-
-				recentClickNumber.current = null;
-				recentClickId.current = null;
-				clickCount.current = 0;
-
-				setTimeout(() => {
-					setBoardState(updatedStateHidden);
-				}, 500);
+				secondInorrectClickHandle(number, id);
 			}
 
 		}
 	};
+
+	const firstClickHandle = (number, id) => {
+		updateClickData(clickCount.current, number, id);
+
+		boardState[id] = {
+			id: id,
+			key: number,
+			status: 'visible',
+			tempStatus: 'in-progress',
+		};
+		const updatedState = structuredClone(boardState);
+		setBoardState(updatedState);
+	};
+
+	const secondCorrectClickHandle = (number, id) => {
+		boardState[id] = {
+			id: id,
+			key: number,
+			status: 'visible',
+			tempStatus: 'completed',
+		};
+		boardState[recentClickId.current] = {
+			id: recentClickId.current,
+			key: recentClickNumber.current,
+			status: 'visible',
+			tempStatus: 'completed',
+		};
+		const updatedState = structuredClone(boardState);
+		setBoardState(updatedState);
+
+		updateClickData();
+	};
+
+	const secondInorrectClickHandle = (number, id) => {
+		boardState[id] = {
+			id: id,
+			key: number,
+			status: 'visible',
+			tempStatus: 'in-progress',
+		};
+		const updatedState = structuredClone(boardState);
+		setBoardState(updatedState);
+
+		boardState[id] = {
+			id: id,
+			key: number,
+			status: 'hidden',
+			tempStatus: '',
+		};
+		boardState[recentClickId.current] = {
+			id: recentClickId.current,
+			key: recentClickNumber.current,
+			status: 'hidden',
+			tempStatus: '',
+		};
+		const updatedStateHidden = structuredClone(boardState);
+
+		updateClickData();
+
+		setTimeout(() => {
+			setBoardState(updatedStateHidden);
+		}, 500);
+	};
+
+	const updateClickData = (count = 0, number = null, id = null) => {
+		recentClickNumber.current = number;
+		recentClickId.current = id;
+		clickCount.current = count;
+	}
 
 	return (
 		<div className={classes}>
