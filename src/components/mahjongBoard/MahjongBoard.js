@@ -52,7 +52,7 @@ const MahjongBoard = () => {
 	}, []);
 
 	const handleClick = (number, isRevealed, id, tempStatus) => {
-		if ( tempStatus == 'in-progress' || tempStatus == 'completed' || tempStatus == 'initial' ) {
+		if ( tempStatus == 'in-progress' || tempStatus == 'completed' || tempStatus == 'initial' || tempStatus == 'pending' ) {
 			return;
 		}
 		clickCount.current = clickCount.current + 1;
@@ -112,7 +112,7 @@ const MahjongBoard = () => {
 			status: 'visible',
 			tempStatus: 'in-progress',
 		};
-		const updatedState = structuredClone(boardState);
+		const updatedState = structuredClone(boardState).map(e => ({...e, tempStatus: 'pending'}));
 		setBoardState(updatedState);
 
 		boardState[id] = {
@@ -127,7 +127,7 @@ const MahjongBoard = () => {
 			status: 'hidden',
 			tempStatus: '',
 		};
-		const updatedStateHidden = structuredClone(boardState);
+		const updatedStateHidden = structuredClone(boardState).map(e => ({...e, tempStatus: ''}));
 
 		updateClickData();
 
