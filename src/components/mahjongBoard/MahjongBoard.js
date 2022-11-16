@@ -32,7 +32,7 @@ const MahjongBoard = () => {
 		recentClickNumber.current = null;
 		recentClickId.current = null;
 		clickCount.current = 0;
-		const numbersArray = PrimeNumbersArray(160);
+		const numbersArray = PrimeNumbersArray(55);
 		numbersArray.sort((a, b) => {return 0.5 - Math.random()});
 		const initialState = [];
 		for (let i = 0; i < numbersArray.length; i++) {
