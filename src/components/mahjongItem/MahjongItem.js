@@ -1,4 +1,3 @@
-
 import style from "./mahjongItem.scss";
 import classNames from 'classnames';
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef }  from "react";
+import React, { useState, useEffect, useRef }  from "react";
 import MahjongItem from "../mahjongItem/MahjongItem";
 import PrimeNumbersArray from "../../helpers/utils";
 import style from "./mahjongBoard.scss";
@@ -68,9 +68,8 @@ const MahjongBoard = () => {
 				secondCorrectClickHandle(number, id);
 			// incorrect card
 			} else {
-				secondInorrectClickHandle(number, id);
+				secondIncorrectClickHandle(number, id);
 			}
-
 		}
 	};
 
@@ -106,7 +105,7 @@ const MahjongBoard = () => {
 		updateClickData();
 	};
 
-	const secondInorrectClickHandle = (number, id) => {
+	const secondIncorrectClickHandle = (number, id) => {
 		boardState[id] = {
 			id: id,
 			key: number,
@@ -141,7 +140,7 @@ const MahjongBoard = () => {
 		recentClickNumber.current = number;
 		recentClickId.current = id;
 		clickCount.current = count;
-	}
+	};
 
 	return (
 		<div className={classes}>
