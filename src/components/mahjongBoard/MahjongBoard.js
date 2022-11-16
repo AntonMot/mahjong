@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef }  from "react";
+import { useState, useEffect, useRef }  from "react";
 import MahjongItem from "../mahjongItem/MahjongItem";
 import PrimeNumbersArray from "../../helpers/utils";
 import style from "./mahjongBoard.scss";
