@@ -1,5 +1,5 @@
 .mahjong-item {
-  border: 0.5px solid #CDCDCD;
+  border: 0.5px solid var(--grey);
   border-radius: 8px;
   width: 80px;
   height: 104px;
@@ -11,9 +11,9 @@
   font-weight: 700;
   font-size: 24px;
   line-height: 36px;
-  color: #0A0A0C;
+  color: var(--black);
   cursor: pointer;
-  background-color: #FFFFFF;
+  background-color: var(--white);
   transition: box-shadow .3s ease, border .1s ease;
 
   //&.hidden {
@@ -23,11 +23,11 @@
   //}
 
   &.in-progress {
-    border-color: #ED5517;
+    border-color: var(--orange);
   }
 
   &.completed {
-    border: 1px solid #0A0A0C;
+    border: 1px solid var(--black);
   }
 
   &:hover {
