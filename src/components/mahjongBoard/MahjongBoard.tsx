@@ -4,6 +4,13 @@ import PrimeNumbersArray from "../../helpers/utils";
 import style from "./mahjongBoard.scss";
 import classNames from "classnames";
 
+type BoardItem = {
+	id: number,
+	key: number,
+	status: string,
+	tempStatus: string
+}
+
 const MahjongBoard = () => {
 
 	const classes = classNames(
@@ -11,8 +18,8 @@ const MahjongBoard = () => {
 		'mahjong-board'
 	);
 
-	const cardsNumber = 32;
-	const initialState0 = [];
+	const cardsNumber : number = 32;
+	const initialState0 : BoardItem[] = [];
 	for (let i = 0; i < cardsNumber; i++) {
 		initialState0.push({
 			id: i,
@@ -24,13 +31,13 @@ const MahjongBoard = () => {
 
 	const [boardState, setBoardState] = useState(initialState0);
 
-	const clickCount = useRef(0);
-	const recentClickNumber = useRef(null);
-	const recentClickId = useRef(null);
+	const clickCount = useRef<number>(0);
+	const recentClickNumber = useRef<number>(0);
+	const recentClickId = useRef<number>(0);
 
 	useEffect(() => {
-		recentClickNumber.current = null;
-		recentClickId.current = null;
+		recentClickNumber.current = 0;
+		recentClickId.current = 0;
 		clickCount.current = 0;
 		const numbersArray = PrimeNumbersArray(55);
 		numbersArray.sort((a, b) => {return 0.5 - Math.random()});
@@ -44,14 +51,14 @@ const MahjongBoard = () => {
 			})
 		}
 		setBoardState(initialState);
-		const stateHidden = initialState.map(e => ({...e, status: 'hidden', tempStatus: ''}));
+		const stateHidden: BoardItem[] = initialState.map(e => ({...e, status: 'hidden', tempStatus: ''}));
 
 		setTimeout(() => {
 			setBoardState(stateHidden);
 		}, 5000);
 	}, []);
 
-	const handleClick = (number, isRevealed, id, tempStatus) => {
+	const handleClick = (number: number, isRevealed: string, id: number, tempStatus: string) => {
 		if ( tempStatus == 'in-progress' || tempStatus == 'completed' || tempStatus == 'initial' || tempStatus == 'pending' ) {
 			return;
 		}
@@ -73,7 +80,7 @@ const MahjongBoard = () => {
 		}
 	};
 
-	const firstClickHandle = (number, id) => {
+	const firstClickHandle = (number: number, id: number) => {
 		updateClickData(clickCount.current, number, id);
 
 		boardState[id] = {
@@ -82,11 +89,11 @@ const MahjongBoard = () => {
 			status: 'visible',
 			tempStatus: 'in-progress',
 		};
-		const updatedState = structuredClone(boardState);
+		const updatedState: BoardItem[] = structuredClone(boardState);
 		setBoardState(updatedState);
 	};
 
-	const secondCorrectClickHandle = (number, id) => {
+	const secondCorrectClickHandle = (number: number, id: number) => {
 		boardState[id] = {
 			id: id,
 			key: number,
@@ -99,20 +106,20 @@ const MahjongBoard = () => {
 			status: 'visible',
 			tempStatus: 'completed',
 		};
-		const updatedState = structuredClone(boardState);
+		const updatedState: BoardItem[] = structuredClone(boardState);
 		setBoardState(updatedState);
 
 		updateClickData();
 	};
 
-	const secondIncorrectClickHandle = (number, id) => {
+	const secondIncorrectClickHandle = (number: number, id: number) => {
 		boardState[id] = {
 			id: id,
 			key: number,
 			status: 'visible',
 			tempStatus: 'in-progress',
 		};
-		const updatedState = structuredClone(boardState).map(e => ({...e, tempStatus: 'pending'}));
+		const updatedState: BoardItem[] = structuredClone(boardState).map(e => ({...e, tempStatus: 'pending'}));
 		setBoardState(updatedState);
 
 		boardState[id] = {
@@ -121,13 +128,14 @@ const MahjongBoard = () => {
 			status: 'hidden',
 			tempStatus: '',
 		};
+
 		boardState[recentClickId.current] = {
 			id: recentClickId.current,
 			key: recentClickNumber.current,
 			status: 'hidden',
 			tempStatus: '',
 		};
-		const updatedStateHidden = structuredClone(boardState).map(e => ({...e, tempStatus: ''}));
+		const updatedStateHidden: BoardItem[] = structuredClone(boardState).map(e => ({...e, tempStatus: ''}));
 
 		updateClickData();
 
@@ -136,7 +144,7 @@ const MahjongBoard = () => {
 		}, 500);
 	};
 
-	const updateClickData = (count = 0, number = null, id = null) => {
+	const updateClickData = (count: number = 0, number: number = 0, id: number = 0) => {
 		recentClickNumber.current = number;
 		recentClickId.current = id;
 		clickCount.current = count;
