@@ -1,10 +1,10 @@
-const PrimeNumbersArray = (n) => {
-	const primeNumbersArray = [];
+const PrimeNumbersArray = (n : number) => {
+	const primeNumbersArray : number[] = [];
 
 	// get array of prime numbers in range n
-	for (let i = 1; i <= n; i++) {
-		let flag = 0;
-		for (let j = 2; j < i; j++) {
+	for (let i : number = 1; i <= n; i++) {
+		let flag : number = 0;
+		for (let j : number = 2; j < i; j++) {
 			if (0 === i % j) {
 				flag = 1;
 				break;

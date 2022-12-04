@@ -1,7 +1,17 @@
 import style from "./mahjongItem.scss";
 import classNames from 'classnames';
+import React from "react";
 
-const MahjongItem = (props) => {
+type Props = {
+	number: number,
+	isRevealed: string,
+	id: number,
+	handleClick: (number: number, isRevealed: string, id: number, tempStatus: string) => void,
+	tempStatus: string,
+	key: number,
+}
+
+const MahjongItem = (props: Props) => {
 
 	const {number, isRevealed, id, tempStatus} = props;
 
@@ -13,17 +23,17 @@ const MahjongItem = (props) => {
 	);
 
 
-	const clickHandler = (e) => {
+	const clickHandler = () => {
 		props.handleClick(number, isRevealed, id, tempStatus);
-	}
+	};
 
 	return (
-		<button className={classes} onClick={(e) => clickHandler(e)} >
+		<button className={classes} onClick={() => clickHandler()}>
 			<span className="item-number">
 				{'visible' == isRevealed ? number : ''}
 			</span>
 		</button>
-	)
+	);
 }
 
 export default MahjongItem;
